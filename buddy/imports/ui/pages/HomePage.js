@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-//import Container from '../components/Container'
-
-
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
   Button,
   Divider,
@@ -20,6 +18,8 @@ import {
 } from 'semantic-ui-react'
 import BackgroundImage from '../components/BackgroundImage';
 import AccountsUIWrapper from '../AccountsUIWrapper.js';
+import EventsPage from './EventsPage';
+import {ProfilePageLayout} from './ProfilePage';
 
 /* eslint-disable react/no-multi-comp */
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
@@ -97,16 +97,17 @@ class DesktopContainer extends Component {
               size='large'
             >
               <Container>
-                <Menu.Item as='a' active>
-                  Home
-                </Menu.Item>
-                <Menu.Item as='a'>Work</Menu.Item>
-                <Menu.Item as='a'>Company</Menu.Item>
-                <Menu.Item as='a'>Careers</Menu.Item>
+                 <Menu.Item as='a' active ><Link to="/">Home</Link></Menu.Item>                 
+                 <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
+                 <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
+              
+                 <Route path="/events" component={EventsPage} />  
+                 <Route exact path="/profile" component={ProfilePageLayout} />      
+
                 <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
+                  {/* <Button as='a' inverted={!fixed}>
                     Log in
-                  </Button>
+                  </Button> */}
                   <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
                     <AccountsUIWrapper />        
                   
