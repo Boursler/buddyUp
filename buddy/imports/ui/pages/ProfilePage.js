@@ -14,10 +14,10 @@ import {
   Responsive,
   Segment,
   Sidebar,
-
   Visibility,
 } from 'semantic-ui-react'
 import {addProfile} from '../../api/profiles/methods'
+import Toggle from 'react-toggle'
 
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
  * such things.
@@ -270,7 +270,7 @@ class ProfilePageLayout extends React.Component {
 
   }
 
-  
+
   render() {
     console.log(this.state)
     return (
