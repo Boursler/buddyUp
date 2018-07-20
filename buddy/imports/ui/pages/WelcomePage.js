@@ -1,5 +1,3 @@
-//top-level page, will call layout inside of here and I'm thinking logic will happen here?
-
 import React from "react";
 import { Button } from 'semantic-ui-react';
 import { Wave, Random } from "react-animated-text";

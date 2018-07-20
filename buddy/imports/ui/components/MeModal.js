@@ -15,9 +15,9 @@ import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react'
 
             return (
                 <Modal 
-                trigger={<div onClick={this.handleOpen}>modal</div>} 
+                trigger={<div onClick={this.handleOpen}></div>} 
                 basic size='small'  
-                open={this.state.modalOpen}
+                open={this.props.isOpen}
                 onClose={this.handleClose}
                 >
 

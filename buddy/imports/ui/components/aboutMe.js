@@ -9,6 +9,7 @@ import { Meteor } from 'meteor/meteor';
 import { addProfile } from '../../api/profiles/methods';
 
 
+
 class AboutMe extends Component {
   state = { aboutMeOpen: false }
 
