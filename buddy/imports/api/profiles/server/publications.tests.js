@@ -7,17 +7,16 @@ import {addProfile} from '../methods';
 import {Profiles} from '../profiles';
 describe('profiles', function() {
   let userId = null;
-  beforeEach(function(){
+  beforeEach(function(done){
     //use profile method to insert a profile to test
       userId = Accounts.createUser({username: Random.id(5)});
       console.log("profpub: userID when set in before hook " +userId)
       const profile = {firstName: "Briana", bio: "a silly lady"};
 
-      addProfile.run.call({userId: userId}, {profile,
-         callback: function(err,res) {
-         console.log("I WANT TO BE HERE!!");
-        }});
+      addProfile._execute({userId: userId, callback: done}, profile);
+
   });
+
 
   afterEach(function(){
       console.log(" profpub: you've entered profile publication after each");
