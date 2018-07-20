@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import React, { Component } from 'react'
-
-import { withRouter } from 'react-router-dom';
-
-
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
   Button,
   Container,
@@ -22,7 +19,8 @@ import {
 } from 'semantic-ui-react'
 import {addProfile} from '../../api/profiles/methods'
 import Modal from '../components/MeModal.js';
-import Toggle from 'react-toggle'
+import EventsPage from './EventsPage';
+import HomePage from './HomePage';
 
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
  * such things.
@@ -65,34 +63,11 @@ HomepageHeading.propTypes = {
  * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
  * It can be more complicated, but you can create really flexible markup.
  */
-class DesktopContainer extends Component {
+class DesktopContainer extends React.Component {
   state = {}
-
-  constructor(props) {
-    super(props)
-
-    this.event = this.event.bind(this)
-    this.home = this.home.bind(this)
-    this.profile = this.profile.bind(this)
-    
-  }
-  
 
   hideFixedMenu = () => this.setState({ fixed: false })
   showFixedMenu = () => this.setState({ fixed: true })
-
-  home() {
-    this.props.history.push('/')
-    // browserHistory.push('/')
-  }
-  event() {
-    this.props.history.push('/events')
-    // browserHistory.push('/events')
-  }
-  profile() {
-    this.props.history.push('/profile')
-    // browserHistory.push('/my-path')
-  }
 
   render() {
     const { children } = this.props
@@ -120,18 +95,14 @@ class DesktopContainer extends Component {
             >
               <Container>
 
-                <Menu.Item as='a' active onClick={this.home}>Home</Menu.Item>
-                <Menu.Item as='a' active onClick={this.event}>Event</Menu.Item>
-                <Menu.Item as='a' active onClick={this.profile}>My Profile</Menu.Item>
-                <Menu.Item as='a'></Menu.Item>
-                {/* <Menu.Item position='right'> */}
-                {/* <Button as='a' inverted={!fixed}>
-                    Log in
-                  </Button>
-                  <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                    Sign Up
-                  </Button> */}
-                {/* </Menu.Item> */}
+                 <Menu.Item as='a' active ><Link to="/">Home</Link></Menu.Item>                 
+                 <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
+                 <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
+              
+                 <Route exact path="/" component={HomePage} />
+                 <Route path="/events" component={EventsPage} />              
+                 
+          
               </Container>
             </Menu>
             {/* <HomepageHeading /> */}
@@ -144,7 +115,7 @@ class DesktopContainer extends Component {
   }
 }
 
-// export const withRouter(DesktopContainer)
+export default DesktopContainer
 
 
 DesktopContainer.propTypes = {
@@ -232,7 +203,7 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
-export default class ProfilePageLayout extends React.Component {
+export class ProfilePageLayout extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -259,7 +230,7 @@ export default class ProfilePageLayout extends React.Component {
     this.setState({
       [name]: value
     });
-    console.log(this.state)
+    // console.log(this.state)
   }
 
   handleSubmit(event) {
@@ -292,15 +263,9 @@ export default class ProfilePageLayout extends React.Component {
           console.log(err);
         }
         console.log(res);
+        this.setState({ openModal: true })
       }
-    );
-
-    toggleModal = () => {
-      this.setState({
-        isOpen: !this.state.isOpen
-      });
-    }
-  
+    );  
   }
 
   
@@ -341,7 +306,7 @@ export default class ProfilePageLayout extends React.Component {
 
                 <div className="ui button" tabIndex="0" onClick={this.handleSubmit}>
                     Submit
-                    <Modal show={this.state.isOpen}
+                    <Modal isOpen={this.state.openModal}
                            onClose={this.toggleModal}>
                     </Modal>
                 </div>
@@ -412,7 +377,7 @@ export default class ProfilePageLayout extends React.Component {
                       <div className="header">Sports</div>
                     </div>
                     <div className="image">
-                      <img src="./images/Categories/sports.jpg" />
+                      <img src="./images/Categories/Sports.jpg" />
                     </div>
                   </div>
 
@@ -422,7 +387,7 @@ export default class ProfilePageLayout extends React.Component {
                       <div className="header">Science</div>
                     </div>
                     <div className="image">
-                      <img src="./images/Categories/science.jpg" />
+                      <img src="./images/Categories/Science.jpg" />
                     </div>
                   </div>
 
