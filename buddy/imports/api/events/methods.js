@@ -4,6 +4,7 @@ import {Events} from './events.js';
 import {check} from 'meteor/check';
 import {SimpleSchema} from 'simpl-schema';
 import {ValidatedMethod} from 'meteor/mdg:validated-method';
+//import { constants } from 'http2';
 // methods check that there is a user context before making any changes to the
 // database. This is one of Meteor's ways of doing security. They keys for
 // validated method are: name, validate, run.
@@ -53,45 +54,68 @@ export const addEvent = new ValidatedMethod({
     }
 });
 
-var apiCall = function (apiUrl, callback) {
-    // try…catch allows you to handle errors
-    try {
-        var response = HTTP
-            .get(apiUrl)
-            .data;
-        // A successful API call returns no error but the contents from the JSON
-        // response
-        callback(null, response);
-    } catch (error) {
-        // If the API responded with an error message and a payload
-        if (error.response) {
-            var errorCode = error.response.data.code;
-            var errorMessage = error.response.data.message;
-            // Otherwise use a generic error message
-        } else {
-            var errorCode = 500;
-            var errorMessage = 'Cannot access the API';
-        }
-        // Create an Error object and return it via callback
-        var myError = new Meteor.Error(errorCode, errorMessage);
-        callback(myError, null);
-    }
-}
+export const newEvents = new ValidatedMethod({
 
-Meteor.methods({
-    'eventfulAPI': function (query) {
+	name: 'events.apicall',
+	validate(queryUrl) {
+		console.log("queryUrl: "  + queryUrl);
+			check(queryUrl, String);
+	},
+	applyOptions: {
+		returnStubValue: true,
+	},
+			
+	run(queryUrl){
+		console.log("I am here with queryURL " + queryUrl);
 
-        console.log(query + 'method called')
+        
+        const apiCall = (apiUrl, callback) => {
+
+            console.log('we are here yay')
+            // try…catch allows you to handle errors
+            try {
+                const response = HTTP
+                    .get(apiUrl)
+                    .data;
+                // A successful API call returns no error but the contents from the JSON
+                // response
+                callback(null, response);
+            } catch (error) {
+                // If the API responded with an error message and a payload
+                if (error.response) {
+                    const errorCode = error.response.data.code;
+                    const errorMessage = error.response.data.message;
+                    // Otherwise use a generic error message
+                } else {
+                    const errorCode = 500;
+                    const errorMessage = 'Cannot access the API';
+                }
+                // Create an Error object and return it via callback
+                const myError = new Meteor.Error(errorCode, errorMessage);
+                callback(myError, null);
+            }
+        };
         // avoid blocking other method calls from the same client
         this.unblock();
-        var apiUrl = 'http://api.eventful.com/json/events/search?...&ex_category=attractions,comedy,co' +
+        const apiUrl = 'http://api.eventful.com/json/events/search?...&ex_category=attractions,comedy,co' +
                 'mmunity,family_fun_kids,movies_film,performing_arts,schools_alumni,support,techn' +
-                'ology&app_key=Pn3g5RvNgRnxzTxp' + query;
+                'ology&app_key=Pn3g5RvNgRnxzTxp' + queryUrl;
 
+        console.log(apiUrl);
         // asynchronous call to the dedicated API calling function
-        var response = Meteor.wrapAsync(apiCall)(apiUrl);
+        const response = Meteor.wrapAsync(apiCall,apiUrl);
 
         console.log(response);
         return response;
-    }
-});
+
+        
+	
+	}});
+
+
+
+
+
+   
+
+
