@@ -24,6 +24,10 @@ import {
     Select,
     Label
 } from "semantic-ui-react";
+import {Meteor} from 'meteor/meteor'
+import {Session} from 'meteor/session'
+
+import methods from '../../api/events/methods'
 
 const HomepageHeading = ({mobile}) => (
     <Container text>
@@ -215,7 +219,7 @@ const ResponsiveContainer = ({children}) => (
 ResponsiveContainer.propTypes = {
     children: PropTypes.node
 }
-
+// this is the code for the Event Page Render
 export default class EventsPage extends React.Component {
 
     state = {
@@ -228,28 +232,62 @@ export default class EventsPage extends React.Component {
         activeItem: ''
     };
 
-    /*handleClick(type) {
-        // make request to server
-      /*  setTimeout(() => {
-            this.setState({
-                [type]: !this.state[type]
-            })
-        }, 1000)
-    };*/
-
+    // this handles pulling the info from the side bar for API Call (input values)
     handleChange = event => {
 
         const {name, value} = event.target;
         this.setState({[name]: value});
     };
 
+    // this handles pulling the information from the Checkbox Group, requires
+    // package npm i install package Checkbox and CheckboxGroup
     categoriesChanged = (value) => {
         this.setState({categories: value});
     };
 
+    // this handles making an API call
+
+    searchEvents = query => {
+        Meteor
+            .call('eventfulAPI', query, function (err, res) {
+                // The method call sets the Session variable to the callback value
+                if (err) {
+                    Session.set('eventsAPI', {error: err});
+                } else {
+                    Session.set('eventsAPI', res);
+                    return res;
+
+                    console.log(Session.get('eventsAPI'));
+
+                }
+            });
+    };
+
+    handleClick = event => {
+
+        const tempC = this.state.categories;
+
+        console.log(tempC);
+
+        let categories = tempC.join();
+
+        console.log('this are ' + categories);
+
+        const queryURL = '&category=' + categories + '&q=' + this.state.search + '&location=' + this.state.zipCode + '&date=' + this.state.date + '&within=' + this.state.distance;
+
+        console.log(queryURL);
+
+        this
+            .searchEvents(queryURL)
+          
+    };
+
+    // this handles the 2 tab render section for "All Events" and "My Events",
+    // toggles between one tab and the other
     handleItemClick = (e, {name}) => this.setState({activeItem: name})
 
     render() {
+
         console.log(this.state);
 
         const {activeItem} = this.state;
@@ -287,37 +325,39 @@ export default class EventsPage extends React.Component {
                                 <Form.Group>
                                     Categories
                                     <CheckboxGroup
-                                    style={{margin:'.5em'}}
-                                    checkboxDepth={3}
-                                    name="categories"
-                                    value={this.state.categories}
-                                    onChange={this.categoriesChanged}>
-                                    <br/><span/>
-                                    <label><Checkbox value="animals"/>Pets</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="art"/>
-                                        Arts</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="books"/>Books & Literature</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="festivals_parades"/>Festivals</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="food"/>Food & Wine</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="fundraisers"/>Fundraising & Charity</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="holiday"/>Holidays</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="music"/>Concerts & Tour Dates</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="outdoors_recreation"/>Outdoors & Recreations</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="science"/>Science</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="single_social"/>Night life</label>
-                                    <br/><span/>
-                                    <label><Checkbox value="sports"/>Sports</label>
-                                </CheckboxGroup>
+                                        style={{
+                                        margin: '.5em'
+                                    }}
+                                        checkboxDepth={3}
+                                        name="categories"
+                                        value={this.state.categories}
+                                        onChange={this.categoriesChanged}>
+                                        <br/><span/>
+                                        <label><Checkbox value="animals"/>Pets</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="art"/>
+                                            Arts</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="books"/>Books & Literature</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="festivals_parades"/>Festivals</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="food"/>Food & Wine</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="fundraisers"/>Fundraising & Charity</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="holiday"/>Holidays</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="music"/>Concerts & Tour Dates</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="outdoors_recreation"/>Outdoors & Recreations</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="science"/>Science</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="single_social"/>Night life</label>
+                                        <br/><span/>
+                                        <label><Checkbox value="sports"/>Sports</label>
+                                    </CheckboxGroup>
                                 </Form.Group>
 
                                 <Form.Field
@@ -377,4 +417,5 @@ export default class EventsPage extends React.Component {
             </ResponsiveContainer>
         );
     }
-}
+
+};

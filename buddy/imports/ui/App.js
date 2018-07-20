@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import { Button } from 'semantic-ui-react';
 import HomePage from './pages/HomePage';
-// import EventPage from '';
+
 import WelcomePage from "./pages/WelcomePage";
 import {ProfilePageLayout} from './pages/ProfilePage';
 import { BrowserRouter as Router, Route } from "react-router-dom";
