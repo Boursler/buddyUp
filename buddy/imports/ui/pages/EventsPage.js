@@ -27,7 +27,7 @@ import {
 import {Meteor} from 'meteor/meteor'
 import {Session} from 'meteor/session'
 
-import methods from '../../api/events/methods'
+import {newEvents} from '../../api/events/methods'
 
 const HomepageHeading = ({mobile}) => (
     <Container text>
@@ -248,17 +248,15 @@ export default class EventsPage extends React.Component {
     // this handles making an API call
 
     searchEvents = query => {
-        Meteor
-            .call('eventfulAPI', query, function (err, res) {
+       newEvents.call( query, function (err, res) {
                 // The method call sets the Session variable to the callback value
                 if (err) {
                     Session.set('eventsAPI', {error: err});
                 } else {
                     Session.set('eventsAPI', res);
+                    console.log(res);
                     return res;
-
-                    console.log(Session.get('eventsAPI'));
-
+                   
                 }
             });
     };
