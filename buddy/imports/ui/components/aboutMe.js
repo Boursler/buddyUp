@@ -10,7 +10,8 @@ import { addProfile } from '../../api/profiles/methods';
 
 
 class AboutMe extends Component {
-  
+  state = { aboutMeOpen: false }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -75,7 +76,9 @@ class AboutMe extends Component {
 
   render(){
     return(
-      <toggle>
+      <Toggle
+      
+      >
         <div className="ui segment success">
           <form className="ui form" >
             <h4 className="ui dividing header">Personal Information</h4>
@@ -101,7 +104,7 @@ class AboutMe extends Component {
           </form>
 
         </div>
-      </toggle>
+     </Toggle>
     )
   }
 }
