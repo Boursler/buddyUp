@@ -20,10 +20,10 @@ export default class App extends Component {
 
 	render() {
 		return (
-			<AboutMe/>
+			// <AboutMe/>
 			<Router>
 				<div>
-
+					
 					<Route exact path="/" component={HomePage} />
 					<Route exact path="/profile" component={ProfilePage} />
 					<Route exact path="/welcome" component={WelcomePage} />

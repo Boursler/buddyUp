@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import React, { Component } from 'react'
+
+import { withRouter } from 'react-router-dom';
+
+
 import {
   Button,
   Container,
@@ -17,6 +21,7 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 import {addProfile} from '../../api/profiles/methods'
+import Modal from '../components/MeModal.js';
 import Toggle from 'react-toggle'
 
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
@@ -63,8 +68,31 @@ HomepageHeading.propTypes = {
 class DesktopContainer extends Component {
   state = {}
 
+  constructor(props) {
+    super(props)
+
+    this.event = this.event.bind(this)
+    this.home = this.home.bind(this)
+    this.profile = this.profile.bind(this)
+    
+  }
+  
+
   hideFixedMenu = () => this.setState({ fixed: false })
   showFixedMenu = () => this.setState({ fixed: true })
+
+  home() {
+    this.props.history.push('/')
+    // browserHistory.push('/')
+  }
+  event() {
+    this.props.history.push('/events')
+    // browserHistory.push('/events')
+  }
+  profile() {
+    this.props.history.push('/profile')
+    // browserHistory.push('/my-path')
+  }
 
   render() {
     const { children } = this.props
@@ -91,11 +119,10 @@ class DesktopContainer extends Component {
               size='large'
             >
               <Container>
-                <Menu.Item as='a' active>
-                  Home
-                </Menu.Item>
-                <Menu.Item as='a' active>Event</Menu.Item>
-                <Menu.Item as='a' active>My Profile</Menu.Item>
+
+                <Menu.Item as='a' active onClick={this.home}>Home</Menu.Item>
+                <Menu.Item as='a' active onClick={this.event}>Event</Menu.Item>
+                <Menu.Item as='a' active onClick={this.profile}>My Profile</Menu.Item>
                 <Menu.Item as='a'></Menu.Item>
                 {/* <Menu.Item position='right'> */}
                 {/* <Button as='a' inverted={!fixed}>
@@ -116,6 +143,9 @@ class DesktopContainer extends Component {
     )
   }
 }
+
+// export const withRouter(DesktopContainer)
+
 
 DesktopContainer.propTypes = {
   children: PropTypes.node,
@@ -202,7 +232,7 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
-class ProfilePageLayout extends React.Component {
+export default class ProfilePageLayout extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -264,12 +294,16 @@ class ProfilePageLayout extends React.Component {
         console.log(res);
       }
     );
+
+    toggleModal = () => {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
+    }
+  
   }
 
-  handleToggle(){
-
-  }
-
+  
 
   render() {
     console.log(this.state)
@@ -305,7 +339,12 @@ class ProfilePageLayout extends React.Component {
                         <textarea rows="2" type="text" className="bio" name="bio" placeholder="Type here" value={this.state.bio} onChange={this.handleChange}></textarea>
                   </div>
 
-                <div className="ui button" tabIndex="0" onClick={this.handleSubmit} onClick={this.handleToggle}>Submit</div>
+                <div className="ui button" tabIndex="0" onClick={this.handleSubmit}>
+                    Submit
+                    <Modal show={this.state.isOpen}
+                           onClose={this.toggleModal}>
+                    </Modal>
+                </div>
 </form>
 
  </div>
@@ -499,4 +538,4 @@ class ProfilePageLayout extends React.Component {
   }
 }
 
-export default ProfilePageLayout
+// export  ProfilePageLayout
