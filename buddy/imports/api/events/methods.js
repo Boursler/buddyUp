@@ -4,7 +4,7 @@ import {Events} from './events.js';
 import {check} from 'meteor/check';
 import {SimpleSchema} from 'simpl-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-//methods check that there is a user context before making any changes to the database. This is one of Meteor's ways of doing security. They keys for validated method are: name, validate, run. 
+//methods check that there is a user context before making any changes to the database. This is one of Meteor's ways of doing security. They keys for validated method are: name, validate, run.
 export const addEvent = new ValidatedMethod({
 	//starting to suspect this should be an upsert: we want to insert once and then update buddies after
 	name: 'events.upsertEvent',
@@ -34,15 +34,19 @@ if (!this.userId) {
 
 Events.update({eventfulID: event.eventfulID}, {$set: event},{upsert: true}, (error, result) => {
 	if (error){
-		console.log("Failed to insert" + error);
-		throw new Meteor.Error('insert-failed');
+		console.log("Failed to upsert" + error);
+		throw new Meteor.Error('upsert-failed');
 	}
 	else {
 		// success
+
 		console.log("Success??");
-		console.log("inserted" + result);
+		console.log("upserted" + result);
 	}
-})
+});
+const eventsLink = Events.getLink(eventfulID, 'profiles');
+eventsLink.add({userID: this.userId});
+
 	}
 });
 
