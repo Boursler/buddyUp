@@ -4,7 +4,7 @@ import {Collection2} from 'meteor/aldeed:collection2'
 import {check} from 'meteor/check';
 import {SimpleSchema} from 'simpl-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-//methods check that there is a user context before making any changes to the database. This is one of Meteor's ways of doing security. They keys for validated method are: name, validate, run. 
+//methods check that there is a user context before making any changes to the database. This is one of Meteor's ways of doing security. They keys for validated method are: name, validate, run.
 export const addProfile = new ValidatedMethod({
 	name: 'profiles.addProfile',
 	validate(profile) {
@@ -32,6 +32,7 @@ export const addProfile = new ValidatedMethod({
 		},
 	run(profile){
 		console.log("I am here with input " + JSON.stringify(profile));
+		console.log("User id is " + this.userId);
 		// Make sure the user is logged in before inserting a profile
     if (!this.userId) {
 		console.log("NOT AUTHORIZED!!! :(");
@@ -39,21 +40,23 @@ export const addProfile = new ValidatedMethod({
 	}
 
 	profile["userId"] = this.userId;
+	let callback = this.callback;
+	if (typeof(callback) !== 'function'){
+		callback = (err, res) => {
+			if(err){
+				console.log("Failed to insert" + err);
+				throw new Meteor.Error('insert-failed');
+			}
+			else {
+				console.log("inserted" + res);
+			}
+		}
+	}
+	Profiles.insert(profile, callback);
 
-	Profiles.insert(profile, (error, result) => {
-		if (error){
-			console.log("Failed to insert" + error);
-			throw new Meteor.Error('insert-failed');
-		}
-		else {
-			// success
-			console.log("Success??");
-			console.log("inserted" + result);
-		}
-	})
 		}
 	});
-	
+
 export const removeProfile = new ValidatedMethod({
 	name: 'profiles.removeProfile',
 	validate(_id){
@@ -105,18 +108,21 @@ export const removeProfile = new ValidatedMethod({
 	}
 
 	profile["userId"] = this.userId;
+	let callback = this.callback;
+	if (typeof(callback) !== 'function'){
+		callback = (err, res) => {
+			if(err){
+				console.log("Failed to insert" + err);
+				throw new Meteor.Error('insert-failed');
+			}
+			else {
+				console.log("inserted" + res);
+			}
+		}
+	}
 
-	Profiles.update({userId: this.userId}, profile, {upsert: true},(error, result) => {
-		if (error){
-			console.log("Failed to update" + error);
-			throw new Meteor.Error('update-failed');
-		}
-		else {
-			// success
-			console.log("Success??");
-			console.log("updated" + result);
-		}
-	})
+	Profiles.update({userId: this.userId}, profile, {upsert: true}, callback);
+
 		}
 	});
 

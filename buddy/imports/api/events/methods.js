@@ -30,20 +30,21 @@ if (!this.userId) {
 	console.log("NOT AUTHORIZED!!! :(");
   throw new Meteor.Error('not-authorized');
 }
-
-
-Events.update({eventfulID: event.eventfulID}, {$set: event},{upsert: true}, (error, result) => {
-	if (error){
-		console.log("Failed to upsert" + error);
-		throw new Meteor.Error('upsert-failed');
+let callback = this.callback;
+	if (typeof(callback) !== 'function'){
+		callback = (err, res) => {
+			if(err){
+				console.log("Failed to upsert" + err);
+				throw new Meteor.Error('upsert-failed');
+			}
+			else {
+				console.log("inserted" + res);
+			}
+		}
 	}
-	else {
-		// success
 
-		console.log("Success??");
-		console.log("upserted" + result);
-	}
-});
+Events.update({eventfulID: event.eventfulID}, {$set: event},{upsert: true}, callback);
+
 const eventsLink = Events.getLink(eventfulID, 'profiles');
 eventsLink.add({userID: this.userId});
 
