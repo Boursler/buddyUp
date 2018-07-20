@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import { Button } from 'semantic-ui-react';

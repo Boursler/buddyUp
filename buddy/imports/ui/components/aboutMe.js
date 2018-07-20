@@ -1,19 +1,76 @@
+import PropTypes from 'prop-types'
 import React from 'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { Component } from 'react';
+import Toggle from 'react-toggle'
 import {render} from 'react-dom';
-import { Session } from 'meteor/session'
+import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
+import { addProfile } from '../../api/profiles/methods';
 
 
 class AboutMe extends Component {
+  
   constructor(props) {
-    super(props);
-    this.state = {      
-                  firstName: this.state.firstName,  
-                  lastName: this.state.lastName, 
-                  bio: this.state.bio
-                 }
+    super(props)
+    this.state = {
+      firstName: '',
+      lastName: '',
+      bio: '',
+    }
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleEdit.bind(this);
+  }
+
+  handleClick(type) {
+    // make request to server
+    setTimeout(() => {
+      this.setState({
+        [type]: !this.state[type]
+      })
+    }, 1000)
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+    console.log(this.state)
+  }
+
+  handleEdit(event){
+    const data = {
+
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      bio: this.state.bio,
+      sports: this.state.sports,
+      books: this.state.books,
+      food: this.state.food,
+      art: this.state.art,
+      outdoors_recreation: this.state.outdoors_recreation,
+      science: this.state.science,
+      animals: this.state.animals,
+      music: this.state.music,
+      holiday: this.state.holiday,
+      fundraisers: this.state.fundraisers,
+      festivals_parades: this.state.festivals_parades,
+      singles_social: this.state.singles_social
+
+    }
+    console.log(JSON.stringify(data) + "just defined data");
+    updateProfile.call(
+      data, (err, res) => {
+        if (err) {
+          console.log("WHY!????!???!?!?!?!?");
+          console.log(err);
+        }
+        console.log(res);
+        browserHistory.push('/dashboard');
+      }
+    );
   }
 
   render(){
