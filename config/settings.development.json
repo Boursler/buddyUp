@@ -1,0 +1,5 @@
+{
+  "public": {
+    "cloudinary": {"cloud_name": "buddyup", "upload_preset": "kspe7xsd"}
+  }
+}
