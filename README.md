@@ -2,12 +2,6 @@
 
 # “AnyBuddyUp”
 
-Team:
-Briana Oursler: Project Manager, Github Admin, Backend
-Kyle Brittan: Backend, Database Admin
-Sepideh Falah: Front/Back End
-Miriam Armada: Front/Back End
-
 ## Overview
 
 AnyBuddyUp is an application to help connect people and make new human connections. In the XXI Century, despite all the technology and ways to communicate, depression and urban Isolation are becoming an epidemic.
