@@ -27,8 +27,6 @@ import {
 import {Meteor} from 'meteor/meteor'
 import {Session} from 'meteor/session'
 
-import {newEvents} from '../../api/events/methods'
-
 const HomepageHeading = ({mobile}) => (
     <Container text>
         <Header
@@ -248,18 +246,48 @@ export default class EventsPage extends React.Component {
     // this handles making an API call
 
     searchEvents = query => {
-       newEvents.call( query, function (err, res) {
-                // The method call sets the Session variable to the callback value
+        /* Meteor.subscribe('apiCall', query, function (err, res){
+
                 if (err) {
-                    Session.set('eventsAPI', {error: err});
+                   console(err)
                 } else {
-                    Session.set('eventsAPI', res);
                     console.log(res);
                     return res;
-                   
+
                 }
             });
-    };
+    };*/
+        const Events = new Mongo.Collection('eventfull');
+
+        Session.setDefault('queryUrl', 'all');
+        Session.setDefault('searching', false);
+
+        Tracker.autorun(function () {
+            if (Session.get('queryUrl')) {
+                var searchHandle = Meteor.subscribe('apiCall', Session.get('queryUrl'), {
+
+                    onReady: function () {
+                        // called when data is ready to be fetched from MiniMongo collection.
+                        var data = Events
+                            .find()
+                            .fetch();
+
+                            console.log(data);
+                        // pass data to the view (React components or Blaze templates)
+                    },
+
+                    onStop: function () {
+                        // called when subscription is stopped
+                    }
+                });
+
+                Session.set('searching', !searchHandle.ready());
+
+            }
+        });
+
+       
+    }
 
     handleClick = event => {
 
@@ -275,9 +303,12 @@ export default class EventsPage extends React.Component {
 
         console.log(queryURL);
 
-        this
-            .searchEvents(queryURL)
-          
+        if (queryURL) {
+            Session.set('queryUrl', queryURL);
+        }
+
+        this.searchEvents('queryURL')
+
     };
 
     // this handles the 2 tab render section for "All Events" and "My Events",
