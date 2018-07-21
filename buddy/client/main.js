@@ -12,4 +12,3 @@ Meteor.startup(() => {
   render(<App />, document.getElementById('render-target'));
 });
 
-eventApi = meteor.subscribe('apiCall');
