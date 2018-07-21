@@ -3,7 +3,7 @@ import {Mongo} from 'meteor/mongo';
 import {Profiles} from '../profiles';
 
 
-Meteor.publish('profiles', function profilesPublication() {
+Meteor.publish('profileInfo', function profilesPublication() {
     console.log("inside the publication now");
     return Profiles.find({
             userId: this.userId ,
