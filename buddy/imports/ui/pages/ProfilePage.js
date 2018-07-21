@@ -18,6 +18,7 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 import {addProfile} from '../../api/profiles/methods'
+import {Profiles} from '../../api/profiles/profiles.js'
 import Modal from '../components/MeModal.js';
 import EventsPage from './EventsPage';
 import HomePage from './HomePage';
@@ -199,6 +200,8 @@ const ResponsiveContainer = ({ children }) => (
   </div>
 )
 
+
+
 ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
@@ -271,6 +274,11 @@ export class ProfilePageLayout extends React.Component {
   
 
   render() {
+ //   const Profiles = new Mongo.Collection('profiles');
+    Meteor.subscribe('profileInfo');
+    let profile_info = Profiles.find().fetch();
+    
+    
     console.log(this.state)
     return (
       <ResponsiveContainer>
