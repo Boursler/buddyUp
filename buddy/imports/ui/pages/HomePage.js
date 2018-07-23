@@ -65,6 +65,10 @@ HomepageHeading.propTypes = {
  * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
  * It can be more complicated, but you can create really flexible markup.
  */
+
+const logoStyle = {
+ marginLeft: "10"
+}
 class DesktopContainer extends Component {
   state = {}
 
@@ -107,9 +111,8 @@ class DesktopContainer extends Component {
                  <Menu.Item position='right'>
                   <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
                     <AccountsUIWrapper />        
-                  
-                  </Button>
-                  
+                  </Button>              
+                  <Image style={logoStyle} avatar margin-left= ".5em" size='mini' src='/images/Categories/ab.png' />           
                 </Menu.Item>
               </Container>
             </Menu>

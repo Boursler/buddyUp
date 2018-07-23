@@ -111,7 +111,11 @@ class DesktopContainer extends Component {
                             <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
                         
                             <Route path="/home" component={HomePage} />  
-                            <Route exact path="/profile" component={ProfilePageLayout} />   
+                            <Route exact path="/profile" component={ProfilePageLayout} />  
+
+                            <Menu.Item position='right'>            
+                               <Image avatar size='mini' src='/images/Categories/ab.png' />           
+                            </Menu.Item>      
                       
                             </Container>
                         </Menu>
