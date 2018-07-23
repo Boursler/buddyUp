@@ -18,6 +18,7 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 import {addProfile} from '../../api/profiles/methods'
+import {Profiles} from '../../api/profiles/profiles.js'
 import Modal from '../components/MeModal.js';
 import EventsPage from './EventsPage';
 import HomePage from './HomePage';
@@ -95,18 +96,18 @@ class DesktopContainer extends React.Component {
             >
               <Container>
 
-                 <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>                 
+                 <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>
                  <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
                  <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
-              
-                 <Route exact path="/home" component={HomePage} />
-                 <Route path="/events" component={EventsPage} />    
 
-                 <Menu.Item position='right'>            
-                     <Image avatar margin-left= ".5em" size='mini' src='/images/Categories/ab.png' />           
-                 </Menu.Item>          
-                 
-          
+                 <Route exact path="/home" component={HomePage} />
+                 <Route path="/events" component={EventsPage} />
+
+                 <Menu.Item position='right'>
+                     <Image avatar margin-left= ".5em" size='mini' src='/images/Categories/ab.png' />
+                 </Menu.Item>
+
+
               </Container>
             </Menu>
             {/* <HomepageHeading /> */}
@@ -203,6 +204,8 @@ const ResponsiveContainer = ({ children }) => (
   </div>
 )
 
+
+
 ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
@@ -214,11 +217,27 @@ export class ProfilePageLayout extends React.Component {
       firstName: '',
       lastName: '',
       bio: '',
+      results: []
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.displayData = this.displayData.bind(this);
   }
+displayData (){
+  const data = Profiles.find().fetch();
+  this.setState({results: data});
+  console.log(this.state.results + "profile results");
+  // pass data to the view (React components or Blaze templates)
+}
+
+componentDidMount() {
+  // let data;
+  let subscription = Meteor.subscribe.bind(this);
+  subscription('profileInfo',  {
+    onReady: this.displayData,
+    });
+}
 
   handleClick(type) {
     // make request to server
@@ -269,12 +288,16 @@ export class ProfilePageLayout extends React.Component {
         console.log(res);
         this.setState({ openModal: true })
       }
-    );  
+    );
   }
 
-  
+
 
   render() {
+ //   const Profiles = new Mongo.Collection('profiles');
+
+
+
     console.log(this.state)
     return (
       <ResponsiveContainer>

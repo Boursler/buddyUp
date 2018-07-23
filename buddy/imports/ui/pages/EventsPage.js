@@ -27,12 +27,16 @@ import {
 } from "semantic-ui-react";
 import {Meteor} from 'meteor/meteor'
 import {Session} from 'meteor/session'
-<<<<<<< HEAD
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
-=======
+
 import {ProfilePageLayout} from './ProfilePage';   
+
+import TrackerReact from 'meteor/ultimatejs:tracker-react';
+import {ProfilePageLayout} from './ProfilePage';
+
 import HomePage from './HomePage';
->>>>>>> c2e979eed7319af117a747706fa32b4ae616aaac
+
+
 
 const HomepageHeading = ({mobile}) => (
     <Container text>
@@ -112,17 +116,17 @@ class DesktopContainer extends Component {
                             size='large'>
                             <Container>
 
-                            <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>                 
+                            <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>
                             <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
                             <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
-                        
-                            <Route path="/home" component={HomePage} />  
-                            <Route exact path="/profile" component={ProfilePageLayout} />  
 
-                            <Menu.Item position='right'>            
-                               <Image avatar size='mini' src='/images/Categories/ab.png' />           
-                            </Menu.Item>      
-                      
+                            <Route path="/home" component={HomePage} />
+                            <Route exact path="/profile" component={ProfilePageLayout} />
+
+                            <Menu.Item position='right'>
+                               <Image avatar size='mini' src='/images/Categories/ab.png' />
+                            </Menu.Item>
+
                             </Container>
                         </Menu>
                         {/* <HomepageHeading /> */}
@@ -145,7 +149,7 @@ class MobileContainer extends Component {
     handlePusherClick = () => {
         const {sidebarOpened} = this.state
 
-        if (sidebarOpened) 
+        if (sidebarOpened)
             this.setState({sidebarOpened: false})
     }
 
@@ -232,9 +236,9 @@ export default class EventsPage extends TrackerReact(React.Component) {
 
         this.state = {
             query: '',
-            subscription: {
-                events: Meteor.subscribe('apiCall')
-            },
+            // subscription: {
+            //     events: Meteor.subscribe('apiCall')
+            // },
             results: [],
             search: '',
             categories: [],
@@ -250,9 +254,15 @@ export default class EventsPage extends TrackerReact(React.Component) {
         this.toggleSubscription = this
             .toggleSubscription
             .bind(this);
+
         this.events = this
             .events
             .bind(this);
+
+        // this.events = this
+        //     .events
+        //     .bind(this);
+
         this.handleChange = this
             .handleChange
             .bind(this);
@@ -260,6 +270,10 @@ export default class EventsPage extends TrackerReact(React.Component) {
         this.handleItemClick = this
             .handleItemClick
             .bind(this);
+
+
+        this.displayData = this.displayData.bind(this);
+
     }
 
     componentWillUnmount() {
@@ -268,6 +282,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
             .subscription
             .events
             .stop();
+
     };
 
     toggleSubscription = (publication, query) => {
@@ -285,7 +300,38 @@ export default class EventsPage extends TrackerReact(React.Component) {
                 }
             });
         }
+
     };
+    displayData = () => {
+        const data = Events.find().fetch();
+        this.setState({results: data});
+        console.log(this.state.results);
+    }
+
+    toggleSubscription = (publication, query) => {
+
+        let subscription = Meteor
+            .subscribe
+            .bind(this);
+
+
+            // this.setState({
+            //     subscription: {
+            //         events: Meteor.subscribe('apiCall', queryURL)
+            //     }
+            subscription('apiCall', query, {
+                onReady: this.displayData
+            })
+            };
+        // };
+
+
+    // events() {
+    //     return Events
+    //         .find()
+    //         .fetch()
+    //         .reverse();
+    // }
 
     events() {
         return Events
@@ -374,7 +420,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                     onChange={this.handleChange}/>
                                 <Card>
                                     <Card.Content>
-                                      
+
                                             <Card.Header>
                                                 Categories</Card.Header>
                                             <Feed>
@@ -413,8 +459,8 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                                     <label><Checkbox value="sports"/>Sports</label>
                                                 </CheckboxGroup>
                                                 </Feed>
-                                          
-                                       
+
+
                                     </Card.Content>
                                 </Card>
                                 <Form.Field
@@ -457,6 +503,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                     name='Events'
                                     active={activeItem === 'Events'}
                                     onClick={this.handleItemClick}/>
+                                    {this.state.events ? (
                                 <EventList>
                                     {this
                                         .events()
@@ -464,6 +511,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                             return <Event key={event.eventfulID} title={event.title}/>
                                         })}
                                 </EventList>
+                                ) : (<p>NO events</p>)}
                                 <Menu.Item
                                     name='My Saved Events'
                                     active={activeItem === 'My Saved Events'}
