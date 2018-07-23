@@ -27,9 +27,10 @@ import {
 } from "semantic-ui-react";
 import {Meteor} from 'meteor/meteor'
 import {Session} from 'meteor/session'
+import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import {ProfilePageLayout} from './ProfilePage';
 import HomePage from './HomePage';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
+
 
 const HomepageHeading = ({mobile}) => (
     <Container text>
@@ -229,9 +230,9 @@ export default class EventsPage extends TrackerReact(React.Component) {
 
         this.state = {
             query: '',
-            subscription: {
-                events: Meteor.subscribe('apiCall')
-            },
+            // subscription: {
+            //     events: Meteor.subscribe('apiCall')
+            // },
             results: [],
             search: '',
             categories: [],
@@ -247,9 +248,9 @@ export default class EventsPage extends TrackerReact(React.Component) {
         this.toggleSubscription = this
             .toggleSubscription
             .bind(this);
-        this.events = this
-            .events
-            .bind(this);
+        // this.events = this
+        //     .events
+        //     .bind(this);
         this.handleChange = this
             .handleChange
             .bind(this);
@@ -257,6 +258,8 @@ export default class EventsPage extends TrackerReact(React.Component) {
         this.handleItemClick = this
             .handleItemClick
             .bind(this);
+
+        this.displayData = this.displayData.bind(this);
     }
 
     componentWillUnmount() {
@@ -266,6 +269,11 @@ export default class EventsPage extends TrackerReact(React.Component) {
             .events
             .stop();
     };
+    displayData = () => {
+        const data = Events.find().fetch();
+        this.setState({results: data});
+        console.log(this.state.results);
+    }
 
     toggleSubscription = (publication, query) => {
 
@@ -273,23 +281,24 @@ export default class EventsPage extends TrackerReact(React.Component) {
             .subscribe
             .bind(this);
 
-        if (subscription.ready()) {
-            subscription.stop()
-        } else {
-            this.setState({
-                subscription: {
-                    events: Meteor.subscribe('apiCall', queryURL)
-                }
-            });
-        }
-    };
 
-    events() {
-        return Events
-            .find()
-            .fetch()
-            .reverse();
-    }
+            // this.setState({
+            //     subscription: {
+            //         events: Meteor.subscribe('apiCall', queryURL)
+            //     }
+            subscription('apiCall', query, {
+                onReady: this.displayData
+            })
+            };
+        // };
+
+
+    // events() {
+    //     return Events
+    //         .find()
+    //         .fetch()
+    //         .reverse();
+    // }
 
     // this handles pulling the info from the side bar for API Call (input values)
     handleChange = event => {
@@ -454,6 +463,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                     name='Events'
                                     active={activeItem === 'Events'}
                                     onClick={this.handleItemClick}/>
+                                    {this.state.events ? (
                                 <EventList>
                                     {this
                                         .events()
@@ -461,6 +471,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                             return <Event key={event.eventfulID} title={event.title}/>
                                         })}
                                 </EventList>
+                                ) : (<p>NO events</p>)}
                                 <Menu.Item
                                     name='My Saved Events'
                                     active={activeItem === 'My Saved Events'}
