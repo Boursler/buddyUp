@@ -45,7 +45,7 @@ class WelcomePage extends React.Component {
       this.state = { isOpen: false };
     }
     skip() {
-      this.props.history.push('/')
+      this.props.history.push('/home')
     }
   
     toggleModal = () => {

@@ -95,12 +95,16 @@ class DesktopContainer extends React.Component {
             >
               <Container>
 
-                 <Menu.Item as='a' active ><Link to="/">Home</Link></Menu.Item>                 
+                 <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>                 
                  <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
                  <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
               
-                 <Route exact path="/" component={HomePage} />
-                 <Route path="/events" component={EventsPage} />              
+                 <Route exact path="/home" component={HomePage} />
+                 <Route path="/events" component={EventsPage} />    
+
+                 <Menu.Item position='right'>            
+                     <Image avatar margin-left= ".5em" size='mini' src='/images/Categories/ab.png' />           
+                 </Menu.Item>          
                  
           
               </Container>
