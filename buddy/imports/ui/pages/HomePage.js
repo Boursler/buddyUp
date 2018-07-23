@@ -245,6 +245,7 @@ const HomepageLayout = () => (
     </Segment>
     
     <Segment style={{ padding: '0em' }} vertical>
+    <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
         <Divider
           as='h4'
           className='header'
