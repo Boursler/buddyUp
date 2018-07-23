@@ -213,17 +213,27 @@ export class ProfilePageLayout extends React.Component {
       firstName: '',
       lastName: '',
       bio: '',
+      results: []
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.displayData = this.displayData.bind(this);
   }
+displayData (){
+  const data = Profiles.find().fetch();
+  this.setState({results: data});
+  console.log(this.state.results + "profile results");
+  // pass data to the view (React components or Blaze templates)
+}
 
-  componentDidMount() {
-    Meteor.subscribe('profileInfo');
-    let profile_info = Profiles.find().fetch();
-    console.log(profile_info);
-  }
+componentDidMount() {
+  // let data;
+  let subscription = Meteor.subscribe.bind(this);
+  subscription('profileInfo',  {
+    onReady: this.displayData,
+    });
+}
 
   handleClick(type) {
     // make request to server
