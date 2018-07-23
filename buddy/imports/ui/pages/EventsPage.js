@@ -1,7 +1,6 @@
-// top-level page, will call layout inside of here and I'm thinking logic will
-// happen here?
 import PropTypes from "prop-types";
 import React, {Component} from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {Event} from "../components/Event";
 import {EventList} from "../components/EventList"
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
@@ -26,6 +25,8 @@ import {
 } from "semantic-ui-react";
 import {Meteor} from 'meteor/meteor'
 import {Session} from 'meteor/session'
+import {ProfilePageLayout} from './ProfilePage';   
+import HomePage from './HomePage';
 
 const HomepageHeading = ({mobile}) => (
     <Container text>
@@ -104,20 +105,14 @@ class DesktopContainer extends Component {
                             secondary={!fixed}
                             size='large'>
                             <Container>
-                                <Menu.Item as='a' active>
-                                    Home
-                                </Menu.Item>
-                                <Menu.Item as='a' active>Event</Menu.Item>
-                                <Menu.Item as='a'></Menu.Item>
-                                <Menu.Item as='a'></Menu.Item>
-                                {/* <Menu.Item position='right'> */}
-                                {/* <Button as='a' inverted={!fixed}>
-                      Log in
-                    </Button>
-                    <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                      Sign Up
-                    </Button> */}
-                                {/* </Menu.Item> */}
+
+                            <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>                 
+                            <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
+                            <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
+                        
+                            <Route path="/home" component={HomePage} />  
+                            <Route exact path="/profile" component={ProfilePageLayout} />   
+                      
                             </Container>
                         </Menu>
                         {/* <HomepageHeading /> */}
