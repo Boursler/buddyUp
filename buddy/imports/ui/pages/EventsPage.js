@@ -6,6 +6,8 @@ import {EventList} from "../components/EventList"
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 import {
     Button,
+    Card,
+    Feed,
     Form,
     Divider,
     Grid,
@@ -25,8 +27,9 @@ import {
 } from "semantic-ui-react";
 import {Meteor} from 'meteor/meteor'
 import {Session} from 'meteor/session'
-import {ProfilePageLayout} from './ProfilePage';   
+import {ProfilePageLayout} from './ProfilePage';
 import HomePage from './HomePage';
+import TrackerReact from 'meteor/ultimatejs:tracker-react';
 
 const HomepageHeading = ({mobile}) => (
     <Container text>
@@ -106,17 +109,17 @@ class DesktopContainer extends Component {
                             size='large'>
                             <Container>
 
-                            <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>                 
+                            <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>
                             <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
                             <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
-                        
-                            <Route path="/home" component={HomePage} />  
-                            <Route exact path="/profile" component={ProfilePageLayout} />  
 
-                            <Menu.Item position='right'>            
-                               <Image avatar size='mini' src='/images/Categories/ab.png' />           
-                            </Menu.Item>      
-                      
+                            <Route path="/home" component={HomePage} />
+                            <Route exact path="/profile" component={ProfilePageLayout} />
+
+                            <Menu.Item position='right'>
+                               <Image avatar size='mini' src='/images/Categories/ab.png' />
+                            </Menu.Item>
+
                             </Container>
                         </Menu>
                         {/* <HomepageHeading /> */}
@@ -139,7 +142,7 @@ class MobileContainer extends Component {
     handlePusherClick = () => {
         const {sidebarOpened} = this.state
 
-        if (sidebarOpened) 
+        if (sidebarOpened)
             this.setState({sidebarOpened: false})
     }
 
@@ -217,17 +220,76 @@ ResponsiveContainer.propTypes = {
     children: PropTypes.node
 }
 // this is the code for the Event Page Render
-export default class EventsPage extends React.Component {
 
-    state = {
-        results: [],
-        search: '',
-        categories: [],
-        zipCode: '',
-        distance: '',
-        date: '',
-        activeItem: ''
+const Events = new Mongo.Collection('eventfull');
+
+export default class EventsPage extends TrackerReact(React.Component) {
+    constructor() {
+        super();
+
+        this.state = {
+            query: '',
+            subscription: {
+                events: Meteor.subscribe('apiCall')
+            },
+            results: [],
+            search: '',
+            categories: [],
+            zipCode: '',
+            distance: '',
+            date: '',
+            activeItem: ''
+        };
+
+        this.componentWillUnmount = this
+            .componentWillUnmount
+            .bind(this);
+        this.toggleSubscription = this
+            .toggleSubscription
+            .bind(this);
+        this.events = this
+            .events
+            .bind(this);
+        this.handleChange = this
+            .handleChange
+            .bind(this);
+
+        this.handleItemClick = this
+            .handleItemClick
+            .bind(this);
+    }
+
+    componentWillUnmount() {
+        this
+            .state
+            .subscription
+            .events
+            .stop();
     };
+
+    toggleSubscription = (publication, query) => {
+
+        let subscription = Meteor
+            .subscribe
+            .bind(this);
+
+        if (subscription.ready()) {
+            subscription.stop()
+        } else {
+            this.setState({
+                subscription: {
+                    events: Meteor.subscribe('apiCall', queryURL)
+                }
+            });
+        }
+    };
+
+    events() {
+        return Events
+            .find()
+            .fetch()
+            .reverse();
+    }
 
     // this handles pulling the info from the side bar for API Call (input values)
     handleChange = event => {
@@ -244,51 +306,9 @@ export default class EventsPage extends React.Component {
 
     // this handles making an API call
 
-    searchEvents = query => {
-        /* Meteor.subscribe('apiCall', query, function (err, res){
-
-                if (err) {
-                   console(err)
-                } else {
-                    console.log(res);
-                    return res;
-
-                }
-            });
-    };*/
-        const Events = new Mongo.Collection('eventfull');
-
-        Session.setDefault('queryUrl', 'all');
-        Session.setDefault('searching', false);
-
-        Tracker.autorun(function () {
-            if (Session.get('queryUrl')) {
-                var searchHandle = Meteor.subscribe('apiCall', Session.get('queryUrl'), {
-
-                    onReady: function () {
-                        // called when data is ready to be fetched from MiniMongo collection.
-                        var data = Events
-                            .find()
-                            .fetch();
-
-                            console.log(data);
-                        // pass data to the view (React components or Blaze templates)
-                    },
-
-                    onStop: function () {
-                        // called when subscription is stopped
-                    }
-                });
-
-                Session.set('searching', !searchHandle.ready());
-
-            }
-        });
-
-       
-    }
-
     handleClick = event => {
+
+        event.preventDefault();
 
         const tempC = this.state.categories;
 
@@ -302,11 +322,12 @@ export default class EventsPage extends React.Component {
 
         console.log(queryURL);
 
-        if (queryURL) {
-            Session.set('queryUrl', queryURL);
-        }
+        if (typeof queryURL === 'string') {
 
-        this.searchEvents('queryURL')
+            this.toggleSubscription('apiCall', queryURL);
+        } else {
+            return
+        }
 
     };
 
@@ -318,8 +339,7 @@ export default class EventsPage extends React.Component {
 
         console.log(this.state);
 
-        const {activeItem} = this.state;
-
+        const {activeItem} = this.state.activeItem;
         return (
             <ResponsiveContainer>
                 <Segment
@@ -349,45 +369,51 @@ export default class EventsPage extends React.Component {
                                     name='search'
                                     value={this.state.search}
                                     onChange={this.handleChange}/>
+                                <Card>
+                                    <Card.Content>
 
-                                <Form.Group>
-                                    Categories
-                                    <CheckboxGroup
-                                        style={{
-                                        margin: '.5em'
-                                    }}
-                                        checkboxDepth={3}
-                                        name="categories"
-                                        value={this.state.categories}
-                                        onChange={this.categoriesChanged}>
-                                        <br/><span/>
-                                        <label><Checkbox value="animals"/>Pets</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="art"/>
-                                            Arts</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="books"/>Books & Literature</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="festivals_parades"/>Festivals</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="food"/>Food & Wine</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="fundraisers"/>Fundraising & Charity</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="holiday"/>Holidays</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="music"/>Concerts & Tour Dates</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="outdoors_recreation"/>Outdoors & Recreations</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="science"/>Science</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="single_social"/>Night life</label>
-                                        <br/><span/>
-                                        <label><Checkbox value="sports"/>Sports</label>
-                                    </CheckboxGroup>
-                                </Form.Group>
+                                            <Card.Header>
+                                                Categories</Card.Header>
+                                            <Feed>
+                                                <CheckboxGroup
+                                                    style={{
+                                                    margin: '.5em'
+                                                }}
+                                                    checkboxDepth={3}
+                                                    name="categories"
+                                                    value={this.state.categories}
+                                                    onChange={this.categoriesChanged}>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="animals"/>Pets</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="art"/>
+                                                        Arts</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="books"/>Books & Literature</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="festivals_parades"/>Festivals</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="food"/>Food & Wine</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="fundraisers"/>Fundraising & Charity</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="holiday"/>Holidays</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="music"/>Concerts & Tour Dates</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="outdoors_recreation"/>Outdoors & Recreations</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="science"/>Science</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="single_social"/>Night life</label>
+                                                    <br/><span/>
+                                                    <label><Checkbox value="sports"/>Sports</label>
+                                                </CheckboxGroup>
+                                                </Feed>
 
+
+                                    </Card.Content>
+                                </Card>
                                 <Form.Field
                                     placeholder='Zipcode...'
                                     control='input'
@@ -428,22 +454,23 @@ export default class EventsPage extends React.Component {
                                     name='Events'
                                     active={activeItem === 'Events'}
                                     onClick={this.handleItemClick}/>
-
+                                <EventList>
+                                    {this
+                                        .events()
+                                        .map((event) => {
+                                            return <Event key={event.eventfulID} title={event.title}/>
+                                        })}
+                                </EventList>
                                 <Menu.Item
                                     name='My Saved Events'
                                     active={activeItem === 'My Saved Events'}
                                     onClick={this.handleItemClick}/>
                             </Menu>
-                            <Segment>
-                                <EventList>
-                                    <Event/>
-                                </EventList>
-                            </Segment>
+                            <Segment></Segment>
                         </Grid.Column>
                     </Grid>
                 </Segment>
             </ResponsiveContainer>
         );
     }
-
 };
