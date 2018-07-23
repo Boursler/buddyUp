@@ -339,7 +339,10 @@ componentDidMount() {
                     Submit
                     <ModalScrollingExample handleOpen={this.handleOpen}
                            handleClose={this.handleClose}
-                           open={this.state.modalOpen}>
+                           open={this.state.modalOpen} 
+                           info={this.state}
+                           >
+
                     </ModalScrollingExample>
                 </div>
 </form>

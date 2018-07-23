@@ -3,7 +3,9 @@ import { Component } from 'react'
 import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react'
 
 
-    export const ModalScrollingExample = props =>(
+    export const ModalScrollingExample = props => {
+    console.log("these are props", props)
+    return (
 
             <div>
                 <Modal
@@ -23,16 +25,9 @@ import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react'
 
                     <Header>Modal Header</Header>
 
-                    <p>This is an example of expanded content that will cause the modal's dimmer to scroll</p>
+                    <h1>{props.info.firstName}</h1>
 
-                    <Image src='/images/wireframe/paragraph.png' />
-                    <Image src='/images/wireframe/paragraph.png' />
-                    <Image src='/images/wireframe/paragraph.png' />
-                    <Image src='/images/wireframe/paragraph.png' />
-                    <Image src='/images/wireframe/paragraph.png' />
-                    <Image src='/images/wireframe/paragraph.png' />
-                    <Image src='/images/wireframe/paragraph.png' />
-                    <Image src='/images/wireframe/paragraph.png' />
+                    <h1>{props.info.art}</h1>
 
                     </Modal.Description>
 
@@ -48,3 +43,4 @@ import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react'
                 </Modal>
           </div>
     )
+    }
