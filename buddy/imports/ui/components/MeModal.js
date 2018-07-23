@@ -3,25 +3,15 @@ import { Component } from 'react'
 import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react'
 
 
-    export default class ModalScrollingExample extends Component {
+    export const ModalScrollingExample = props =>(
 
-        state = { modalOpen: false }
-
-        handleOpen = () => this.setState({ modalOpen: true })
-
-        handleClose = () => this.setState({ modalOpen: false })
-
-        render() {
-
-            return (
-                <Modal 
-                trigger={<div onClick={this.handleOpen}></div>} 
-                basic size='small'  
-                open={this.props.isOpen}
-                onClose={this.handleClose}
+            <div>
+                <Modal
+                trigger={<Button  onClick={props.handleOpen}>Submit</Button>}
+                open={props.open}
+                basic size='small'
+                onClose={props.handleClose}
                 >
-
-                {/* <Modal trigger={<Button>Long Modal</Button>}> */}
 
                 <Modal.Header>Profile Picture</Modal.Header>
 
@@ -49,11 +39,12 @@ import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react'
                 </Modal.Content>
 
                 <Modal.Actions>
-                    <Button color='green' onClick={this.handleClose} inverted>
+                      <Button color='green' onClick={props.handleClose} inverted
+                      >
                         <Icon name='checkmark' /> Edit
                     </Button>
                 </Modal.Actions>
 
                 </Modal>
-            )
-    }}
+          </div>
+    )
