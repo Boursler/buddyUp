@@ -16,6 +16,7 @@ import {
   Segment,
   Sidebar,
   Visibility,
+  Dimmer,
 } from 'semantic-ui-react'
 import {addProfile} from '../../api/profiles/methods'
 import {Profiles} from '../../api/profiles/profiles.js'
@@ -172,17 +173,17 @@ class MobileContainer extends Component {
                   <Menu.Item onClick={this.handleToggle}>
                     <Icon name='sidebar' />
                   </Menu.Item>
-                  {/* <Menu.Item position='right'>
+                  <Menu.Item position='right'>
                     <Button as='a' inverted>
                       Log in
                     </Button>
                     <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
                       Sign Up
                     </Button>
-                  </Menu.Item> */}
+                  </Menu.Item>
                 </Menu>
               </Container>
-              {/* <HomepageHeading mobile /> */}
+              <HomepageHeading mobile />
             </Segment>
 
             {children}
@@ -241,13 +242,19 @@ componentDidMount() {
     });
 }
 
-  handleClick(type) {
-    // make request to server
+  handleClick(type,active) {
+    // make request to 
+    
     setTimeout(() => {
       this.setState({
         [type]: !this.state[type]
       })
     }, 1000)
+   
+      // this.setState({
+      //   [active]: !this.state[active]
+      // })
+    
   }
 
   handleChange(event) {
@@ -298,9 +305,9 @@ componentDidMount() {
 
 
   render() {
- //   const Profiles = new Mongo.Collection('profiles');
-
-
+ 
+    const { active } = this.state
+console.log("this is active"+ this.state.art)
 
     console.log(this.state)
     return (
@@ -366,15 +373,25 @@ componentDidMount() {
               <Grid.Column width={14}>
                 <div className="ui four stackable link cards">
 
+                
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('art')}></i>
+                      <i className="right floated like icon" 
+                      active={this.state.art} 
+                      name='add' 
+                      compact  
+                      // color={this.state.art ? 'red' : null}
+                      style={{ color: this.state.art ? "red" : ""}}
+                      onClick={(event) => this.handleClick('art')}>
+                      </i>
                       <div className="header">Art</div>
-                    </div>
-                    <div className="image">
-                      <img src="./images/Categories/art.jpg" />
-                    </div>
+                    </div>                   
+                    <div className="image">                  
+                      <img src="./images/Categories/art.jpg"/>               
+                    </div>                               
                   </div>
+                  
+
 
                   <div className="card">
                     <div className="content">
