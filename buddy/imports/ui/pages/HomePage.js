@@ -243,13 +243,26 @@ const HomepageLayout = () => (
         </Grid.Row>
       </Grid>
     </Segment>
+    
     <Segment style={{ padding: '0em' }} vertical>
+        <Divider
+          as='h4'
+          className='header'
+          horizontal
+          style={{ margin: '3em 0em', textTransform: 'uppercase' }}
+        >
+          <a href='#'>About Us</a>
+        </Divider>
       <Grid celled='internally' columns='equal' stackable>
         <Grid.Row textAlign='center'>
-          <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+        <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              "What a Company"
+              "I shouldn't have gone with their competitor."
             </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              <Image avatar src='/images/Categories/sepideh.jpg' />
+              <a href='https://www.linkedin.com/in/sepideh-falah-33949854/'>Sepideh</a> Chief Fun Officer Acme Toys
+            </p>
             <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
           </Grid.Column>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
@@ -257,13 +270,42 @@ const HomepageLayout = () => (
               "I shouldn't have gone with their competitor."
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              <Image avatar src='/images/Categories/sepideh.jpg' />
-              <b>Sepideh</b> Chief Fun Officer Acme Toys
+              <Image avatar src='/images/Categories/.jpg' />
+              <a href=''>NAN</a> Chief Fun Officer Acme Toys
             </p>
+            <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
           </Grid.Column>
         </Grid.Row>
       </Grid>
     </Segment>
+
+    <Segment style={{ padding: '0em' }} vertical>
+      <Grid celled='internally' columns='equal' stackable>
+        <Grid.Row textAlign='center'>   
+          <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+            <Header as='h3' style={{ fontSize: '2em' }}>
+              "I shouldn't have gone with their competitor."
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              <Image avatar src='/images/Categories/.jpg' />
+              <a href=''>NAN</a> Chief Fun Officer Acme Toys
+            </p>
+            <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+          </Grid.Column>
+          <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+            <Header as='h3' style={{ fontSize: '2em' }}>
+              "I shouldn't have gone with their competitor."
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              <Image avatar src='/images/Categories/.jpg' />
+              <a href=''>NAN</a> Chief Fun Officer Acme Toys
+            </p>
+            <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Segment>
+
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Container text>
         <Header as='h3' style={{ fontSize: '2em' }}>
