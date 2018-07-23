@@ -19,7 +19,7 @@ import {
 } from 'semantic-ui-react'
 import {addProfile} from '../../api/profiles/methods'
 import {Profiles} from '../../api/profiles/profiles.js'
-import Modal from '../components/MeModal.js';
+import {ModalScrollingExample} from '../components/MeModal';
 import EventsPage from './EventsPage';
 import HomePage from './HomePage';
 
@@ -217,12 +217,14 @@ export class ProfilePageLayout extends React.Component {
       firstName: '',
       lastName: '',
       bio: '',
-      results: []
+      results: [],
+      modalOpen: false
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.displayData = this.displayData.bind(this);
+
   }
 displayData (){
   const data = Profiles.find().fetch();
@@ -290,7 +292,9 @@ componentDidMount() {
       }
     );
   }
+  handleOpen = () => this.setState({ modalOpen: true })
 
+  handleClose = () => this.setState({ modalOpen: false })
 
 
   render() {
@@ -333,9 +337,10 @@ componentDidMount() {
 
                 <div className="ui button" tabIndex="0" onClick={this.handleSubmit}>
                     Submit
-                    <Modal isOpen={this.state.openModal}
-                           onClose={this.toggleModal}>
-                    </Modal>
+                    <ModalScrollingExample handleOpen={this.handleOpen}
+                           handleClose={this.handleClose}
+                           open={this.state.modalOpen}>
+                    </ModalScrollingExample>
                 </div>
 </form>
 
