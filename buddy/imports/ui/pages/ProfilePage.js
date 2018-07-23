@@ -96,18 +96,18 @@ class DesktopContainer extends React.Component {
             >
               <Container>
 
-                 <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>                 
+                 <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>
                  <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
                  <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
-              
-                 <Route exact path="/home" component={HomePage} />
-                 <Route path="/events" component={EventsPage} />    
 
-                 <Menu.Item position='right'>            
-                     <Image avatar margin-left= ".5em" size='mini' src='/images/Categories/ab.png' />           
-                 </Menu.Item>          
-                 
-          
+                 <Route exact path="/home" component={HomePage} />
+                 <Route path="/events" component={EventsPage} />
+
+                 <Menu.Item position='right'>
+                     <Image avatar margin-left= ".5em" size='mini' src='/images/Categories/ab.png' />
+                 </Menu.Item>
+
+
               </Container>
             </Menu>
             {/* <HomepageHeading /> */}
@@ -223,6 +223,12 @@ export class ProfilePageLayout extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    Meteor.subscribe('profileInfo');
+    let profile_info = Profiles.find().fetch();
+    console.log(profile_info);
+  }
+
   handleClick(type) {
     // make request to server
     setTimeout(() => {
@@ -272,17 +278,16 @@ export class ProfilePageLayout extends React.Component {
         console.log(res);
         this.setState({ openModal: true })
       }
-    );  
+    );
   }
 
-  
+
 
   render() {
  //   const Profiles = new Mongo.Collection('profiles');
-    Meteor.subscribe('profileInfo');
-    let profile_info = Profiles.find().fetch();
-    
-    
+
+
+
     console.log(this.state)
     return (
       <ResponsiveContainer>
