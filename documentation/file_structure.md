@@ -52,5 +52,6 @@ imports #All files that will not be eagerly loaded at application startup
 		- mosaic.json #mosaic of images
 public #store static files
 	- images
+
 server #expose publications here and import server startup files
 	- main.js
