@@ -342,7 +342,6 @@ componentDidMount() {
                            open={this.state.modalOpen} 
                            info={this.state}
                            >
-
                     </ModalScrollingExample>
                 </div>
 </form>
