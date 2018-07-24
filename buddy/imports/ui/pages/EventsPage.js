@@ -254,9 +254,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
             .toggleSubscription
             .bind(this);
 
-        this.events = this
-            .events
-            .bind(this);
+
 
         // this.events = this     .events     .bind(this);
 
@@ -473,24 +471,25 @@ export default class EventsPage extends TrackerReact(React.Component) {
                             </Menu>
 
                             <Segment>
-                                {this.state.results
+                                {this.state.results.length
                                     ? (
                                         <Item.Group>
                                             {this
                                                 .state
                                                 .results
-                                                .map(event =>
-                                                <Item>
-                                                    <Item.Image size='tiny' src={this.results.image}/>
+                                                .map(event => (
+                                                <Item key={event.eventfulID}>
+
                                                     <Item.Content>
                                                         <Item.Header>
-                                                            <Icon name='like'/>{this.results.title}</Item.Header>
+                                                            <Icon name='like'/>{event.title}</Item.Header>
                                                         <Item.Description>
-                                                            <p>{this.results.description}</p>
-                                                            <p>{this.results.address}<span/> {this.results.postalCode}</p>
+                                                            <p>{event.description}</p>
+                                                            <p>{event.address}<span/> {event.postalCode}</p>
                                                         </Item.Description>
                                                     </Item.Content>
                                                 </Item>
+                                                )
                                             )}
                                         </Item.Group>
                                     )
