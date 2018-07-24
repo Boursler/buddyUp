@@ -373,7 +373,8 @@ componentDidMount() {
                       <i className="right floated like icon" 
                       active={this.state.art} 
                       name='add' 
-                      compact  
+                      compact 
+                      size='tiny'
                       // color={this.state.art ? 'red' : null}
                       style={{ color: this.state.art ? "red" : ""}}
                       onClick={(event) => this.handleClick('art')}>

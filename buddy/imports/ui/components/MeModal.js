@@ -15,12 +15,12 @@ import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react'
                 onClose={props.handleClose}
                 >
 
-                <Modal.Header>Profile Picture</Modal.Header>
+                <Modal.Header>My Profile</Modal.Header>
 
                 <Modal.Content image>                
                 <Image wrapped size='medium' src='/images/Categories/Icons/avatar.png'/>
                     <Modal.Description>
-                        <Header>Default Profile</Header>
+                        <Header></Header>
 
                         <p>
                            <h1>{props.info.firstName}</h1>
