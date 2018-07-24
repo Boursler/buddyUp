@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, {Component} from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {Event} from "../components/Event";
 import {EventList} from "../components/EventList"
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
@@ -15,6 +15,7 @@ import {
     Header,
     Icon,
     Image,
+    Item,
     Menu,
     Input,
     List,
@@ -29,14 +30,8 @@ import {Meteor} from 'meteor/meteor'
 import {Session} from 'meteor/session'
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 
-import {ProfilePageLayout} from './ProfilePage';   
-
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import {ProfilePageLayout} from './ProfilePage';
-
 import HomePage from './HomePage';
-
-
 
 const HomepageHeading = ({mobile}) => (
     <Container text>
@@ -116,16 +111,22 @@ class DesktopContainer extends Component {
                             size='large'>
                             <Container>
 
-                            <Menu.Item as='a' active ><Link to="/home">Home</Link></Menu.Item>
-                            <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
-                            <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
+                                <Menu.Item as='a' active>
+                                    <Link to="/home">Home</Link>
+                                </Menu.Item>
+                                <Menu.Item as='a' active>
+                                    <Link to="/events">Events</Link>
+                                </Menu.Item>
+                                <Menu.Item as='a' active>
+                                    <Link to="/profile">My Profile</Link>
+                                </Menu.Item>
 
-                            <Route path="/home" component={HomePage} />
-                            <Route exact path="/profile" component={ProfilePageLayout} />
+                                <Route path="/home" component={HomePage}/>
+                                <Route exact path="/profile" component={ProfilePageLayout}/>
 
-                            <Menu.Item position='right'>
-                               <Image avatar size='mini' src='/images/Categories/ab.png' />
-                            </Menu.Item>
+                                <Menu.Item position='right'>
+                                    <Image avatar size='mini' src='/images/Categories/ab.png'/>
+                                </Menu.Item>
 
                             </Container>
                         </Menu>
@@ -149,7 +150,7 @@ class MobileContainer extends Component {
     handlePusherClick = () => {
         const {sidebarOpened} = this.state
 
-        if (sidebarOpened)
+        if (sidebarOpened) 
             this.setState({sidebarOpened: false})
     }
 
@@ -236,9 +237,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
 
         this.state = {
             query: '',
-            // subscription: {
-            //     events: Meteor.subscribe('apiCall')
-            // },
+            // subscription: {     events: Meteor.subscribe('apiCall') },
             results: [],
             search: '',
             categories: [],
@@ -259,9 +258,7 @@ export default class EventsPage extends TrackerReact(React.Component) {
             .events
             .bind(this);
 
-        // this.events = this
-        //     .events
-        //     .bind(this);
+        // this.events = this     .events     .bind(this);
 
         this.handleChange = this
             .handleChange
@@ -271,8 +268,9 @@ export default class EventsPage extends TrackerReact(React.Component) {
             .handleItemClick
             .bind(this);
 
-
-        this.displayData = this.displayData.bind(this);
+        this.displayData = this
+            .displayData
+            .bind(this);
 
     }
 
@@ -303,7 +301,10 @@ export default class EventsPage extends TrackerReact(React.Component) {
 
     };
     displayData = () => {
-        const data = Events.find().fetch();
+
+        const data = Events
+            .find()
+            .fetch();
         this.setState({results: data});
         console.log(this.state.results);
     }
@@ -314,23 +315,11 @@ export default class EventsPage extends TrackerReact(React.Component) {
             .subscribe
             .bind(this);
 
-
-            // this.setState({
-            //     subscription: {
-            //         events: Meteor.subscribe('apiCall', queryURL)
-            //     }
-            subscription('apiCall', query, {
-                onReady: this.displayData
-            })
-            };
-        // };
-
-
-    // events() {
-    //     return Events
-    //         .find()
-    //         .fetch()
-    //         .reverse();
+        // this.setState({     subscription: {         events:
+        // Meteor.subscribe('apiCall', queryURL)     }
+        subscription('apiCall', query, {onReady: this.displayData})
+    };
+    // }; events() {     return Events         .find()         .fetch() .reverse();
     // }
 
     events() {
@@ -387,13 +376,33 @@ export default class EventsPage extends TrackerReact(React.Component) {
     render() {
 
         console.log(this.state);
+        const panes = [
+            {
+                menuItem: 'Tab 1',
+                render: () => <Tab.Pane attached={false}>Tab 1 Content</Tab.Pane>
+            }, {
+                menuItem: 'Tab 2',
+                render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane>
+            }, {
+                menuItem: 'Tab 3',
+                render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane>
+            }
+        ]
+
+        const TabExampleSecondaryPointing = () => (<Tab
+            menu={{
+            secondary: true,
+            pointing: true
+        }}
+            panes={panes}/>)
 
         const {activeItem} = this.state.activeItem;
+
         return (
             <ResponsiveContainer>
                 <Segment
                     style={{
-                    padding: '3em 0em'
+                    padding: '1em 0em'
                 }}
                     vertical>
                     <Grid container verticalAlign='middle'>
@@ -421,45 +430,44 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                 <Card>
                                     <Card.Content>
 
-                                            <Card.Header>
-                                                Categories</Card.Header>
-                                            <Feed>
-                                                <CheckboxGroup
-                                                    style={{
-                                                    margin: '.5em'
-                                                }}
-                                                    checkboxDepth={3}
-                                                    name="categories"
-                                                    value={this.state.categories}
-                                                    onChange={this.categoriesChanged}>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="animals"/>Pets</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="art"/>
-                                                        Arts</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="books"/>Books & Literature</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="festivals_parades"/>Festivals</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="food"/>Food & Wine</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="fundraisers"/>Fundraising & Charity</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="holiday"/>Holidays</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="music"/>Concerts & Tour Dates</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="outdoors_recreation"/>Outdoors & Recreations</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="science"/>Science</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="single_social"/>Night life</label>
-                                                    <br/><span/>
-                                                    <label><Checkbox value="sports"/>Sports</label>
-                                                </CheckboxGroup>
-                                                </Feed>
-
+                                        <Card.Header>
+                                            Categories</Card.Header>
+                                        <Feed>
+                                            <CheckboxGroup
+                                                style={{
+                                                margin: '.5em'
+                                            }}
+                                                checkboxDepth={3}
+                                                name="categories"
+                                                value={this.state.categories}
+                                                onChange={this.categoriesChanged}>
+                                                <br/><span/>
+                                                <label><Checkbox value="animals"/>Pets</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="art"/>
+                                                    Arts</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="books"/>Books & Literature</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="festivals_parades"/>Festivals</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="food"/>Food & Wine</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="fundraisers"/>Fundraising & Charity</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="holiday"/>Holidays</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="music"/>Concerts & Tour Dates</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="outdoors_recreation"/>Outdoors & Recreations</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="science"/>Science</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="single_social"/>Night life</label>
+                                                <br/><span/>
+                                                <label><Checkbox value="sports"/>Sports</label>
+                                            </CheckboxGroup>
+                                        </Feed>
 
                                     </Card.Content>
                                 </Card>
@@ -497,31 +505,49 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                 </Form.Field>
                             </Form>
                         </Grid.Column>
-                        <Grid.Column width={10}>
-                            <Menu pointing secondary>
-                                <Menu.Item
-                                    name='Events'
-                                    active={activeItem === 'Events'}
-                                    onClick={this.handleItemClick}/>
-                                    {this.state.events ? (
-                                <EventList>
-                                    {this
-                                        .events()
-                                        .map((event) => {
-                                            return <Event key={event.eventfulID} title={event.title}/>
-                                        })}
-                                </EventList>
-                                ) : (<p>NO events</p>)}
-                                <Menu.Item
-                                    name='My Saved Events'
-                                    active={activeItem === 'My Saved Events'}
-                                    onClick={this.handleItemClick}/>
-                            </Menu>
-                            <Segment></Segment>
+                        <Grid.Column width={12}>
+                          
+                                <Menu pointing secondary>
+                                    <Menu.Item
+                                        name='Events'
+                                        active={activeItem === 'Events'}
+                                        onClick={this.handleItemClick}/>
+                                    <Menu.Item
+                                        name='My Saved Events'
+                                        active={activeItem === 'My Saved Events'}
+                                        onClick={this.handleItemClick}/>
+                                </Menu>
+
+                                <Segment>
+                                    {this.state.results
+                                        ? (
+                                            <Item.Group>
+                                                {this
+                                                    .displayData()
+                                                    .map((event) => {
+                                                        return <Item>
+                                                            <Item.Image size='tiny' src={this.results.image}/>
+                                                            <Item.Content>
+                                                                <Item.Header>
+                                                                    <Icon name='like'/>{this.results.title}</Item.Header>
+                                                                <Item.Description>
+                                                                    <p>{this.results.description}</p>
+                                                                    <p>{this.results.address}<span/> {this.results.postalCode}</p>
+                                                                </Item.Description>
+                                                            </Item.Content>
+                                                        </Item>
+                                                    })}
+                                            </Item.Group>
+                                        )
+                                        : (
+                                            <h3>No events on Search</h3 >
+                                        )}</Segment>
+                           
                         </Grid.Column>
-                    </Grid>
+                    </Grid >
                 </Segment>
+
             </ResponsiveContainer>
         );
-    }
-};
+
+}}
