@@ -23,13 +23,15 @@ Meteor.publish('apiCall', function(queryUrl) {
             
         console.log(response.data)
 
-        _.each(response.data.events.event, function(item) {
+        _.map(response.data.events.event, function(item) {
+
+           
             var data = item;
             var len = 1000;
-
+            
          
 
-            var event = {
+           var event = {
                 eventfulID: data.id,
                 postalCode: data.postalCode,
                 date:data.postalCode,
@@ -37,6 +39,7 @@ Meteor.publish('apiCall', function(queryUrl) {
                 url: data.url,
                 categories: data.categories.category[0].id,
                 title: data.title,
+                description: data.description
              
                 
             }
@@ -44,7 +47,7 @@ Meteor.publish('apiCall', function(queryUrl) {
             console.log('loging event'+ event);
 
             
-            self.added('eventfull', event.id, event);
+            self.added('eventfull', event.eventfulID, event );
         });
 
         self.ready();
