@@ -269,15 +269,6 @@ export default class EventsPage extends TrackerReact(React.Component) {
         this.displayData = this.displayData.bind(this);
     }
 
-    componentWillUnmount() {
-        this
-            .state
-            .subscription
-            .events
-            .stop();
-
-    };
-
     displayData = () => {
 
         const data = Events
