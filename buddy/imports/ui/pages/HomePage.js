@@ -348,13 +348,13 @@ const HomepageLayout = () => (
           </Grid.Column>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              "Consult not your fears but your hopes and your dreams."
+              "Battle-tested Dev Ops Engineer"
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               <Image avatar src='/images/Categories/Kyle.jpg' />
               <a href='https://www.linkedin.com/in/kabrittan/'>Kyle</a> Cloud Developer
             </p>
-            <p style={{ fontSize: '1.33em' }}>The University of Arizona Coding Boot Camp has been challenging, exhausting and exhilarating! Ultimately, it will also be the best thing that I have ever done for myself</p>
+            <p style={{ fontSize: '1.33em' }}>With over 25 years of operational experience, managing teams, and problem-solving, my hands-on experience has me ready for more!</p>
           </Grid.Column>
         </Grid.Row>
       </Grid>
