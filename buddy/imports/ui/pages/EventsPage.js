@@ -283,23 +283,6 @@ export default class EventsPage extends TrackerReact(React.Component) {
 
     };
 
-    toggleSubscription = (publication, query) => {
-
-        let subscription = Meteor
-            .subscribe
-            .bind(this);
-
-        if (subscription.ready()) {
-            subscription.stop()
-        } else {
-            this.setState({
-                subscription: {
-                    events: Meteor.subscribe('apiCall', queryURL)
-                }
-            });
-        }
-
-    };
     displayData = () => {
 
         const data = Events
@@ -376,25 +359,6 @@ export default class EventsPage extends TrackerReact(React.Component) {
     render() {
 
         console.log(this.state);
-        const panes = [
-            {
-                menuItem: 'Tab 1',
-                render: () => <Tab.Pane attached={false}>Tab 1 Content</Tab.Pane>
-            }, {
-                menuItem: 'Tab 2',
-                render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane>
-            }, {
-                menuItem: 'Tab 3',
-                render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane>
-            }
-        ]
-
-        const TabExampleSecondaryPointing = () => (<Tab
-            menu={{
-            secondary: true,
-            pointing: true
-        }}
-            panes={panes}/>)
 
         const {activeItem} = this.state.activeItem;
 
@@ -506,43 +470,44 @@ export default class EventsPage extends TrackerReact(React.Component) {
                             </Form>
                         </Grid.Column>
                         <Grid.Column width={12}>
-                          
-                                <Menu pointing secondary>
-                                    <Menu.Item
-                                        name='Events'
-                                        active={activeItem === 'Events'}
-                                        onClick={this.handleItemClick}/>
-                                    <Menu.Item
-                                        name='My Saved Events'
-                                        active={activeItem === 'My Saved Events'}
-                                        onClick={this.handleItemClick}/>
-                                </Menu>
 
-                                <Segment>
-                                    {this.state.results
-                                        ? (
-                                            <Item.Group>
-                                                {this
-                                                    .displayData()
-                                                    .map((event) => {
-                                                        return <Item>
-                                                            <Item.Image size='tiny' src={this.results.image}/>
-                                                            <Item.Content>
-                                                                <Item.Header>
-                                                                    <Icon name='like'/>{this.results.title}</Item.Header>
-                                                                <Item.Description>
-                                                                    <p>{this.results.description}</p>
-                                                                    <p>{this.results.address}<span/> {this.results.postalCode}</p>
-                                                                </Item.Description>
-                                                            </Item.Content>
-                                                        </Item>
-                                                    })}
-                                            </Item.Group>
-                                        )
-                                        : (
-                                            <h3>No events on Search</h3 >
-                                        )}</Segment>
-                           
+                            <Menu pointing secondary>
+                                <Menu.Item
+                                    name='Events'
+                                    active={activeItem === 'Events'}
+                                    onClick={this.handleItemClick}/>
+                                <Menu.Item
+                                    name='My Saved Events'
+                                    active={activeItem === 'My Saved Events'}
+                                    onClick={this.handleItemClick}/>
+                            </Menu>
+
+                            <Segment>
+                                {this.state.results
+                                    ? (
+                                        <Item.Group>
+                                            {this
+                                                .state
+                                                .results
+                                                .map(event => 
+                                                <Item>
+                                                    <Item.Image size='tiny' src={this.results.image}/>
+                                                    <Item.Content>
+                                                        <Item.Header>
+                                                            <Icon name='like'/>{this.results.title}</Item.Header>
+                                                        <Item.Description>
+                                                            <p>{this.results.description}</p>
+                                                            <p>{this.results.address}<span/> {this.results.postalCode}</p>
+                                                        </Item.Description>
+                                                    </Item.Content>
+                                                </Item>
+                                            )}
+                                        </Item.Group>
+                                    )
+                                    : (
+                                        <h3>No events on Search</h3 >
+                                    )}</Segment>
+
                         </Grid.Column>
                     </Grid >
                 </Segment>
@@ -550,4 +515,5 @@ export default class EventsPage extends TrackerReact(React.Component) {
             </ResponsiveContainer>
         );
 
-}}
+    }
+}
