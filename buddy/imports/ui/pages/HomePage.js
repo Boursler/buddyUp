@@ -19,7 +19,7 @@ import {
 import BackgroundImage from '../components/BackgroundImage';
 import AccountsUIWrapper from '../AccountsUIWrapper.js';
 import EventsPage from './EventsPage';
-import {ProfilePageLayout} from './ProfilePage';   
+import {ProfilePageLayout} from './ProfilePage';
 
 /* eslint-disable react/no-multi-comp */
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
@@ -81,7 +81,7 @@ class DesktopContainer extends Component {
 
     return (
       <Responsive {...Responsive.onlyComputer}>
-      
+
         <Visibility
           once={false}
           onBottomPassed={this.showFixedMenu}
@@ -101,18 +101,18 @@ class DesktopContainer extends Component {
               size='large'
             >
               <Container>
-                 <Menu.Item as='a' active ><Link to="/">Home</Link></Menu.Item>                 
+                 <Menu.Item as='a' active ><Link to="/">Home</Link></Menu.Item>
                  <Menu.Item as='a' active ><Link to="/events">Events</Link></Menu.Item>
                  <Menu.Item as='a' active ><Link to="/profile">My Profile</Link></Menu.Item>
-              
-                 <Route path="/events" component={EventsPage} />  
-                 <Route exact path="/profile" component={ProfilePageLayout} />   
+
+                 <Route path="/events" component={EventsPage} />
+                 <Route exact path="/profile" component={ProfilePageLayout} />
 
                  <Menu.Item position='right'>
                   <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                    <AccountsUIWrapper />        
-                  </Button>              
-                  <Image style={logoStyle} avatar margin-left= ".5em" size='mini' src='/images/Categories/ab.png' />           
+                    <AccountsUIWrapper />
+                  </Button>
+                  <Image style={logoStyle} avatar margin-left= ".5em" size='mini' src='/images/Categories/ab.png' />
                 </Menu.Item>
               </Container>
             </Menu>
@@ -218,17 +218,16 @@ const HomepageLayout = () => (
         <Grid.Row>
           <Grid.Column width={8}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              Our Mission 
+              Our Mission
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-            To make a cooperative arrangement whereby individuals are teamed up and assume responsibility for one another’s welfare
+            To make a cooperative arrangement whereby individuals can meet and help lift each other up through fun events together.
             </p>
             <Header as='h3' style={{ fontSize: '2em' }}>
             Buddy Up: Enrich your life and improve your health
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              Yes that's right, you thought it was the stuff of dreams, but even bananas can be
-              bioengineered.
+              Mental state is an important factor in physical health -- help boost your wellbeing by going on an adventure with a new friend1
             </p>
           </Grid.Column>
           <Grid.Column floated='right' width={6}>
@@ -248,7 +247,7 @@ const HomepageLayout = () => (
         Can't find a buddy who is available Wednesday evenings to attend an event in your local park? Want to run with a buddy willing to wake up early in the morning?
         </Header>
         <p style={{ fontSize: '1.33em' }}>
-        Any Buddy up is dedicated to making it easy for people to interact with each other, primarily through recreational activities. Getting together to bike, golf, sail, hike and more is a cinch with buddyup.
+        Any Buddy Up is dedicated to making it easy for people to interact with each other, primarily through recreational activities. We want to help people get together to bike, golf, sail, hike and more is a cinch.
         </p>
         <Button as='a' size='large'>
           Sign Up
@@ -284,8 +283,8 @@ const HomepageLayout = () => (
         </p>
       </Container>
     </Segment>
-    
-    <Segment style={{ padding: '0em' }} vertical> 
+
+    <Segment style={{ padding: '0em' }} vertical>
       <Grid celled='internally' columns='equal' stackable>
         <Grid.Row textAlign='center'>
         <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
@@ -300,11 +299,11 @@ const HomepageLayout = () => (
           </Grid.Column>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              "I shouldn't have gone with their competitor."
+              "I was looking for this site --  5 years ago."
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               <Image avatar src='/images/Categories/briana.png' />
-              <a href='https://www.linkedin.com/in/briana-oursler/'>Briana</a> Chief Fun Officer Acme Toys
+              <a href='https://www.linkedin.com/in/briana-oursler/'>Briana</a> Project Manager
             </p>
             <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
           </Grid.Column>
@@ -313,7 +312,7 @@ const HomepageLayout = () => (
     </Segment>
     <Segment style={{ padding: '0em' }} vertical>
       <Grid celled='internally' columns='equal' stackable>
-        <Grid.Row textAlign='center'>   
+        <Grid.Row textAlign='center'>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
               "I shouldn't have gone with their competitor."
@@ -365,7 +364,7 @@ const HomepageLayout = () => (
                 Buddy Up!
               </Header>
               <p>
-                Finding friends with the same mental disorder...    PRICELESS!  ;-)
+                Finding friends in an urban world...    PRICELESS!  ;-)
               </p>
             </Grid.Column>
           </Grid.Row>
@@ -374,6 +373,6 @@ const HomepageLayout = () => (
     </Segment>
   </ResponsiveContainer>
 
-  
+
 )
 export default HomepageLayout
