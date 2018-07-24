@@ -17,19 +17,30 @@ import { Button, Header, Icon, Image, Modal } from 'semantic-ui-react'
 
                 <Modal.Header>Profile Picture</Modal.Header>
 
-                <Modal.Content image>
+                <Modal.Content image>                
+                <Image wrapped size='medium' src='/images/Categories/Icons/avatar.png'/>
+                    <Modal.Description>
+                        <Header>Default Profile</Header>
 
-                    <Image wrapped size='medium' src='/images/wireframe/image.png' />
+                        <p>
+                           <h1>{props.info.firstName}</h1>
+                           <h1>{props.info.lastName}</h1>
+                           <h1>{props.info.bio}</h1>
+
+                        </p>
+
+                        <p><h1>{props.info.art}</h1></p>
+                    </Modal.Description>
+{/* 
+                    <Image wrapped size='medium' src='/images/Categories/Icons/avatar.png' />
 
                     <Modal.Description>
 
                     <Header>Modal Header</Header>
 
-                    <h1>{props.info.firstName}</h1>
+                    
 
-                    <h1>{props.info.art}</h1>
-
-                    </Modal.Description>
+                    </Modal.Description> */}
 
                 </Modal.Content>
 

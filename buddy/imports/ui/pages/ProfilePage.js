@@ -249,12 +249,7 @@ componentDidMount() {
       this.setState({
         [type]: !this.state[type]
       })
-    }, 1000)
-   
-      // this.setState({
-      //   [active]: !this.state[active]
-      // })
-    
+    }, 500)    
   }
 
   handleChange(event) {
@@ -307,7 +302,7 @@ componentDidMount() {
   render() {
  
     const { active } = this.state
-console.log("this is active"+ this.state.art)
+    console.log("this is active"+ this.state.art)
 
     console.log(this.state)
     return (
@@ -343,7 +338,7 @@ console.log("this is active"+ this.state.art)
                   </div>
 
                 <div className="ui button" tabIndex="0" onClick={this.handleSubmit}>
-                    Submit
+                    
                     <ModalScrollingExample handleOpen={this.handleOpen}
                            handleClose={this.handleClose}
                            open={this.state.modalOpen} 
@@ -357,7 +352,6 @@ console.log("this is active"+ this.state.art)
  </div>
 
               </Grid.Column>
-
               <Grid.Column floated='right' width={6}>
                 <Image bordered circular size='medium' src='./images/Categories/Icons/avatar.png' />
               </Grid.Column>
@@ -395,7 +389,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('outdoors_recreation')}></i>
+                      <i className="right floated like icon" 
+                         active={this.state.outdoors_recreation} 
+                         name='add' 
+                         compact  
+                         style={{ color: this.state.outdoors_recreation ? "red" : ""}}
+                         onClick={(event) => this.handleClick('outdoors_recreation')}></i>
                       <div className="header">Outdoors_recreation</div>
                     </div>
                     <div className="image">
@@ -405,7 +404,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('food')}></i>
+                      <i className="right floated like icon" 
+                          active={this.state.food} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.food ? "red" : ""}}
+                          onClick={(event) => this.handleClick('food')}></i>
                       <div className="header">Food</div>
                     </div>
                     <div className="image">
@@ -415,7 +419,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('books')}></i>
+                      <i className="right floated like icon" 
+                          active={this.state.books} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.books ? "red" : ""}}
+                          onClick={(event) => this.handleClick('books')}></i>
                       <div className="header">Books</div>
                     </div>
                     <div className="image">
@@ -425,7 +434,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('sports')}></i>
+                      <i className="right floated like icon"
+                          active={this.state.sports} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.sports ? "red" : ""}}
+                          onClick={(event) => this.handleClick('sports')}></i>
                       <div className="header">Sports</div>
                     </div>
                     <div className="image">
@@ -435,7 +449,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('science')}></i>
+                      <i className="right floated like icon"
+                          active={this.state.science} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.science ? "red" : ""}}
+                          onClick={(event) => this.handleClick('science')}></i>
                       <div className="header">Science</div>
                     </div>
                     <div className="image">
@@ -445,7 +464,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('music')}></i>
+                      <i className="right floated like icon"
+                          active={this.state.music} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.music ? "red" : ""}}
+                          onClick={(event) => this.handleClick('music')}></i>
                       <div className="header">Music</div>
                     </div>
                     <div className="image">
@@ -455,7 +479,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('animals')}></i>
+                      <i className="right floated like icon"
+                          active={this.state.animals} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.animals ? "red" : ""}}
+                          onClick={(event) => this.handleClick('animals')}></i>
                       <div className="header">Animals</div>
                     </div>
                     <div className="image">
@@ -465,7 +494,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('festivals_parades')}></i>
+                      <i className="right floated like icon"
+                           active={this.state.festivals_parades} 
+                           name='add' 
+                           compact  
+                           style={{ color: this.state.festivals_parades ? "red" : ""}}
+                           onClick={(event) => this.handleClick('festivals_parades')}></i>
                       <div className="header">Festivals_parades</div>
                     </div>
                     <div className="image">
@@ -475,18 +509,28 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('singles_social')}></i>
+                      <i className="right floated like icon"
+                          active={this.state.singles_social} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.singles_social ? "red" : ""}}
+                          onClick={(event) => this.handleClick('singles_social')}></i>
                       <div className="header">Singles_social</div>
                     </div>
 
                     <div className="image">
-                      <img src="./images/Categories/nightlife_singles.jpg" />
+                      <img src="./images/Categories/nightlife_singles.jpg"/>
                     </div>
                   </div>
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('fundraisers')}></i>
+                      <i className="right floated like icon"
+                          active={this.state.fundraisers} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.fundraisers ? "red" : ""}}
+                          onClick={(event) => this.handleClick('fundraisers')}></i>
                       <div className="header">Fundraisers</div>
                     </div>
                     <div className="image">
@@ -496,7 +540,12 @@ console.log("this is active"+ this.state.art)
 
                   <div className="card">
                     <div className="content">
-                      <i className="right floated like icon" onClick={(event) => this.handleClick('holiday')}></i>
+                      <i className="right floated like icon"
+                          active={this.state.holiday} 
+                          name='add' 
+                          compact  
+                          style={{ color: this.state.holiday ? "red" : ""}} 
+                          onClick={(event) => this.handleClick('holiday')}></i>
                       <div className="header">Holiday</div>
                     </div>
                     <div className="image">
