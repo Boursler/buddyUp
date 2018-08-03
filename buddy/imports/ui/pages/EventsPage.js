@@ -318,7 +318,9 @@ export default class EventsPage extends TrackerReact(React.Component) {
 
         console.log('this are ' + categories);
 
-        const queryURL = '&category=' + categories + '&q=' + this.state.search + '&location=' + this.state.zipCode + '&date=' + this.state.date + '&within=' + this.state.distance;
+        const queryURL = '&category=' + categories + '&q=' + this.state.search
+        + '&location=' + this.state.zipCode + '&date=' + this.state.date +
+        '&within=' + this.state.distance;
 
         console.log(queryURL);
 
