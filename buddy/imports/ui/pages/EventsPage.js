@@ -32,6 +32,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react';
 
 import {ProfilePageLayout} from './ProfilePage';
 import HomePage from './HomePage';
+import {addEvent} from '../../api/events/methods';
 
 const HomepageHeading = ({mobile}) => (
     <Container text>
@@ -267,6 +268,11 @@ export default class EventsPage extends TrackerReact(React.Component) {
             .bind(this);
 
         this.displayData = this.displayData.bind(this);
+        this.addUserEvent = this.addUserEvent.bind(this);
+    }
+    addUserEvent = (event) => {
+        event.preventDefault();
+        console.log("getting ready to add a user event y'all");
     }
 
     displayData = () => {
@@ -475,7 +481,8 @@ export default class EventsPage extends TrackerReact(React.Component) {
 
                                                     <Item.Content>
                                                         <Item.Header>
-                                                            <Icon name='like'/>{event.title}</Item.Header>
+                                                            <Icon name='like'
+                                                            onClick ={this.addUserEvent}/>{event.title}</Item.Header>
                                                         <Item.Description>
                                                             <p>{event.description}</p>
                                                             <p>{event.address}<span/> {event.postalCode}</p>
