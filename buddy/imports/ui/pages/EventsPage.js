@@ -271,8 +271,20 @@ export default class EventsPage extends TrackerReact(React.Component) {
         this.addUserEvent = this.addUserEvent.bind(this);
     }
     addUserEvent = (event) => {
-        event.preventDefault();
-        console.log("getting ready to add a user event y'all");
+        // event.preventDefault();
+        const data = {
+            eventfulID: event.eventfulID,
+            postalCode: event.postalCode,
+            title: event.title,
+            url: event.url,
+            date: event.date,
+            address: event.address,
+            category: event.category
+        };
+        console.log(JSON.stringify(data));
+        // addEvent.call(
+        //
+        // )
     }
 
     displayData = () => {
@@ -482,7 +494,10 @@ export default class EventsPage extends TrackerReact(React.Component) {
                                                     <Item.Content>
                                                         <Item.Header>
                                                             <Icon name='like'
-                                                            onClick ={this.addUserEvent}/>{event.title}</Item.Header>
+                                                            onClick ={e => {
+                                                                e.preventDefault();
+                                                                this.addUserEvent(event)}
+                                                        }/>{event.title}</Item.Header>
                                                         <Item.Description>
                                                             <p>{event.description}</p>
                                                             <p>{event.address}<span/> {event.postalCode}</p>
