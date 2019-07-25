@@ -5,8 +5,9 @@ import SimpleSchema from 'simpl-schema';
 export const Events = new Mongo.Collection('events');
 
 const Schemas = {};
+const hasan = 'is kachal';
 
-Schemas.Event = new SimpleSchema({
+Schemas.Event = new SimplesSchema({
   
 	//extend to make optional if other apis get added
     eventfulID: {
